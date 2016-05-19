@@ -2,6 +2,10 @@ FROM php:7-fpm
 
 MAINTAINER sadoknet@gmail.com
 
+ENV VERTICA_VERSION 7.2.x
+ENV VERTICA_EXACT_VERSION 7.2.2-0
+ENV VERTICA_CLIENT_PKG vertica-client-7.2.2-0.x86_64.tar.gz
+
 RUN \
   apt-get -y update && \
   apt-get -y install \
@@ -35,8 +39,8 @@ RUN docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr/ && \
 
 #Vertica ODBC driver
 RUN mkdir /opt/vertica && \
-    wget https://my.vertica.com/client_drivers/7.2.x/7.2.2-0/vertica-client-7.2.2-0.x86_64.tar.gz && \
-    tar zxvf vertica-client-7.2.2-0.x86_64.tar.gz -C / && \
+    wget "https://my.vertica.com/client_drivers/$VERTICA_VERSION/$VERTICA_EXACT_VERSION/$VERTICA_CLIENT_PKG" && \
+    tar zxvf $VERTICA_CLIENT_PKG -C / && \
     touch /etc/odbc.ini && \
     touch /etc/odbcinst.ini && \
     touch /etc/vertica.ini && \
@@ -56,7 +60,7 @@ RUN mkdir /opt/vertica && \
 
 #install phpUnit & composer
 RUN \
-    wget https://phar.phpunit.de/phpunit.phar && \
+    wget "https://phar.phpunit.de/phpunit.phar" && \
     chmod +x phpunit.phar && \
     mv phpunit.phar /usr/local/bin/phpunit && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
