@@ -54,7 +54,7 @@ RUN mkdir /opt/vertica && \
     echo "[Driver]"  >> /etc/vertica.ini && \
     echo "DriverManagerEncoding=UTF-16"  >> /etc/vertica.ini && \
     echo "ODBCInstLib = /usr/lib/x86_64-linux-gnu/libodbcinst.so.1"  >> /etc/vertica.ini && \
-    echo "ErrorMessagesPath=/opt/vertica/lib64"  >> /etc/vertica.ini && \
+    echo "ErrorMessagesPath=/opt/vertica"  >> /etc/vertica.ini && \
     echo "LogLevel=4"  >> /etc/vertica.ini && \
     echo "LogPath=/tmp"  >> /etc/vertica.ini
 
