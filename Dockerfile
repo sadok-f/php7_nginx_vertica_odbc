@@ -9,7 +9,9 @@ ENV VERTICA_CLIENT_PKG vertica-client-7.2.2-0.x86_64.tar.gz
 RUN \
   apt-get -y update && \
   apt-get -y install \
-  curl vim wget git build-essential make gcc nasm mlocate unixODBC unixODBC-dev
+  curl vim wget git build-essential make gcc nasm mlocate unixODBC unixODBC-dev \
+  nginx supervisor \
+  net-tools libxrender1
 
 RUN echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
     echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && \
@@ -58,6 +60,11 @@ RUN mkdir /opt/vertica && \
     echo "LogLevel=4"  >> /etc/vertica.ini && \
     echo "LogPath=/tmp"  >> /etc/vertica.ini
 
+RUN touch /var/www/html/index.php && \
+    echo "<?php phpinfo();"  >> /var/www/html/index.php
+
+COPY docker/resources/etc/ /etc/
+
 #install phpUnit & composer
 RUN \
     wget "https://phar.phpunit.de/phpunit.phar" && \
@@ -65,11 +72,9 @@ RUN \
     mv phpunit.phar /usr/local/bin/phpunit && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-#add www-data + mdkdir var folder
-RUN usermod -u 1000 www-data && \
-    mkdir -p /var/www/html/var && \
-    chown -R www-data:www-data /var/www/html/var
 
 WORKDIR /var/www/html
 
-CMD ["php-fpm"]
+EXPOSE 80
+
+CMD ["/usr/bin/supervisord"]
