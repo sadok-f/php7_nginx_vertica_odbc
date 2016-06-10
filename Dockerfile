@@ -58,7 +58,16 @@ RUN mkdir /opt/vertica && \
     echo "ODBCInstLib = /usr/lib/x86_64-linux-gnu/libodbcinst.so.1"  >> /etc/vertica.ini && \
     echo "ErrorMessagesPath=/opt/vertica"  >> /etc/vertica.ini && \
     echo "LogLevel=4"  >> /etc/vertica.ini && \
-    echo "LogPath=/tmp"  >> /etc/vertica.ini
+    echo "LogPath=/tmp"  >> /etc/vertica.ini && \
+    echo "max_execution_time = 300" >> /usr/local/etc/php/php.ini && \
+    echo "memory_limit = 256M" >> /usr/local/etc/php/php.ini
+
+#install Node+npm+PhotomsJs
+RUN \
+    curl -sL https://deb.nodesource.com/setup_4.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g phantomjs-prebuilt
+
 
 RUN touch /var/www/html/index.php && \
     echo "<?php phpinfo();"  >> /var/www/html/index.php
