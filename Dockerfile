@@ -1,4 +1,4 @@
-FROM php:7-fpm
+FROM php:7.0-fpm
 
 MAINTAINER sadoknet@gmail.com
 
@@ -65,7 +65,7 @@ RUN mkdir /opt/vertica && \
     echo "LogLevel=4"  >> /etc/vertica.ini && \
     echo "LogPath=/tmp"  >> /etc/vertica.ini && \
     echo "max_execution_time = 300" >> /usr/local/etc/php/php.ini && \
-    echo "memory_limit = 256M" >> /usr/local/etc/php/php.ini
+    echo "memory_limit = 512M" >> /usr/local/etc/php/php.ini
 
 
 RUN touch /var/www/html/index.php && \
