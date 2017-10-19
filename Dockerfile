@@ -2,9 +2,9 @@ FROM php:7.0-fpm
 
 MAINTAINER sadoknet@gmail.com
 
-ENV VERTICA_VERSION 7.2.x
-ENV VERTICA_EXACT_VERSION 7.2.2-0
-ENV VERTICA_CLIENT_PKG vertica-client-7.2.2-0.x86_64.tar.gz
+ENV VERTICA_VERSION 8.1.x
+ENV VERTICA_EXACT_VERSION 8.1.1-2
+ENV VERTICA_CLIENT_PKG vertica-client-${VERTICA_EXACT_VERSION}.x86_64.tar.gz
 
 RUN \
   apt-get -y update && \
